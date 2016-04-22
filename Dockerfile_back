@@ -16,7 +16,7 @@ RUN source zdsenv/bin/activate
 RUN wget https://raw.githubusercontent.com/zestedesavoir/zds-site/dev/requirements.txt
 RUN wget https://raw.githubusercontent.com/zestedesavoir/zds-site/dev/requirements-dev.txt
 
-#ÂInstall back dependencies
+# Install back dependencies
 RUN CFLAGS="$CFLAGS -L/lib" pip install --upgrade -r requirements.txt -r requirements-dev.txt 
 
 # Create database
