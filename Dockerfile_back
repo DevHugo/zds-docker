@@ -13,11 +13,11 @@ RUN virtualenv zdsenv --python=python2
 RUN source zdsenv/bin/activate 
 
 # Download requirements.txt and requirements-dev.txt
-RUN wget https://raw.githubusercontent.com/zestedesavoir/zds-site/dev/requirements.txt
-RUN wget https://raw.githubusercontent.com/zestedesavoir/zds-site/dev/requirements-dev.txt
+RUN wget https://raw.githubusercontent.com/zestedesavoir/zds-site/dev/requirements-dev.txt 
+RUN CFLAGS="$CFLAGS -L/lib" pip install --upgrade -r requirements-dev.txt 
 
-# Install back dependencies
-RUN CFLAGS="$CFLAGS -L/lib" pip install --upgrade -r requirements.txt -r requirements-dev.txt 
+RUN wget https://raw.githubusercontent.com/zestedesavoir/zds-site/dev/requirements.txt
+RUN CFLAGS="$CFLAGS -L/lib" pip install --upgrade -r requirements.txt 
 
 # Create database
 RUN printf "%s\n" "if [ ! -f /code/base.db ]; then" "cd /code" "echo \" Creation de la base de donnees \" " "python manage.py migrate" "python manage.py loaddata fixtures/*.yaml" "python manage.py load_factory_data fixtures/advanced/aide_tuto_media.yaml" "fi" "cd /code/" "echo \" Pour lancer le serveur, taper la commande python manage.py runserver 0.0.0.0:8000  \" " > /root/.bashrc && chmod +x /root/.bashrc
